@@ -67,8 +67,10 @@ def write_yaml_file(name, data_dict):
 
 def get_section_plain_text(chapter, starts_with_str):
 
-    sections = chapter.find_all(["section"], {"class": "level3", "id": re.compile(f"{starts_with_str}-?.*")})
-    if sections:
+    if sections := chapter.find_all(
+        ["section"],
+        {"class": "level3", "id": re.compile(f"{starts_with_str}-?.*")},
+    ):
         return sections[0].get_text()
     else:
         return ""

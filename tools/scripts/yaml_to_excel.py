@@ -81,8 +81,8 @@ def write_header(ws):
     ws.add_image(img, "C2")
 
     img = Image("owasp-masvs/Document/images/OWASP_logo.png")
-    img.height = img.height * 0.1
-    img.width = img.width * 0.1
+    img.height *= 0.1
+    img.width *= 0.1
     ws.add_image(img, "H2")
 
     ws["D2"].value = "Mobile Application Security Verification Standard"
@@ -115,10 +115,7 @@ def write_title(ws, row, start_column, end_column, title):
     ws.row_dimensions[row].height = 25  # points
 
 def get_link_for(links, type):
-    for link in links:
-        if type in link:
-            return link
-    return None
+    return next((link for link in links if type in link), None)
 
 def create_security_requirements_sheet(wb):
     ws = wb.active
@@ -181,7 +178,7 @@ def create_security_requirements_sheet(wb):
             ws.cell(row=row, column=col_l2).style = "green"
         if req["R"]:
             ws.cell(row=row, column=col_r).style = "orange"
-        
+
         if req.get("links"):
             # We only get the first link because there should be actually only one per platform.
             link_android = get_link_for(req["links"], "0x05")
@@ -194,7 +191,7 @@ def create_security_requirements_sheet(wb):
             else:
                 ws.cell(row=row, column=col_link_android).value = "N/A"
                 ws.cell(row=row, column=col_link_android).style = "gray_header"
-            
+
             if link_ios:
                 ws.cell(row=row, column=col_link_ios).value = f'=HYPERLINK("{link_ios}", "Test Case")'
                 ws.cell(row=row, column=col_link_ios).style = "Hyperlink"
@@ -205,7 +202,7 @@ def create_security_requirements_sheet(wb):
                 ws.cell(row=row, column=col_link_ios).style = "gray_header"
 
         ws.row_dimensions[row].height = 55  # points
-        
+
         status_cell = ws.cell(row=row, column=col_status).coordinate
         excel_styles_and_validation.status_validation.add(status_cell)
 

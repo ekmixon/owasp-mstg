@@ -45,11 +45,7 @@ def create_style(params):
     style.font = Font(**params.get("font"))
 
     alignment = params.get("alignment")
-    if alignment == "center":
-        style.alignment = align_center
-    else:
-        style.alignment = align_left
-
+    style.alignment = align_center if alignment == "center" else align_left
     if params.get("background"):
         style.fill = PatternFill("solid", fgColor=params.get("background"))
         bd = Side(style="thick", color="FFFFFF")
